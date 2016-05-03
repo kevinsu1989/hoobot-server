@@ -1,9 +1,11 @@
 hoobot的发布服务
 APIS
 1.新版本发布
+
 URL:/api/release
+
 METHOD:POST
-```
+```json
 {
 	project_id: 1, //项目id
 	commit_hash: '44e4cebf98d57a7d3f9b1ec9cfed2a176a879523', //commit的hash
@@ -17,9 +19,11 @@ METHOD:POST
 
 ```
 2.编辑发布上线
+
 URL:/api/deploy
+
 METHOD:POST
-```
+```json
 {
 	page_id: 1, //页面id
 	hashKey: 'test', //VRS的任务id
@@ -30,4 +34,5 @@ METHOD:POST
 
 
 3.发布版本时的log
-URL:/logs/:commit_id 
+
+URL:/logs/:commit_id
