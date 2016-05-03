@@ -13,7 +13,8 @@ _api = require './biz/api'
 
 release = (req, res, next)->
   _api.release req.body, -> 
-  _http.responseJSON null, null, res
+  logUrl = req.headers.host + "/logs/" + req.body.commit_id
+  _http.responseJSON null, {logs:logUrl}, res
 
 
 deployByEditor = (req, res, next)->
@@ -22,11 +23,13 @@ deployByEditor = (req, res, next)->
   
 
 
-
-
 exports.init = (app)->
+
 
   app.post '/api/release', release
 
   app.post '/api/deploy', deployByEditor
+
+  app.get '/logs/:hash',(req, res, next)->
+    res.sendfile "logs/#{req.params.hash}"
 

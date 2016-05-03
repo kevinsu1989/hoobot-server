@@ -115,6 +115,8 @@ exports.execCommandWithTask = (command, cb)->
 
   console.log command.command
   console.log command.description
+  exports.writeTaskLog command.task, command.command
+  exports.writeTaskLog command.task, command.description
 
   exec = _child.exec command.command, options
   exec.on 'close', (code)->
@@ -127,16 +129,17 @@ exports.execCommandWithTask = (command, cb)->
       description: command.description
 
     err = "任务发生错误，执行失败" if not data.success
-    console.log command.description
     #推送实时的日志
     # exports.emitRealLog data
     cb err
 
   exec.stdout.on 'data', (message)->
     console.log message
+    exports.writeTaskLog command.task, message
 
   exec.stderr.on 'data', (message)->
     console.log message.red
+    exports.writeTaskLog command.task, message
 
 #批量执行命令
 exports.execCommandsWithTask = (items, cb)->
@@ -162,6 +165,12 @@ exports.extractCommandFromGitMessage = (message)->
   matches = message.match pattern
   return if not matches
   return type: matches[1], target: matches[2]
+
+exports.writeTaskLog = (task, log)->
+  _fs.appendFile _path.join(_config.logsDirectory, task.hash), (log + '\n')
+
+exports.removeTaskLog = (task)->
+  _fs.removeSync _path.join(_config.logsDirectory, task.hash)
 
 #读取文件
 exports.readFile = (file)-> _fs.readFileSync file, 'utf-8'

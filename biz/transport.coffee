@@ -43,6 +43,8 @@ exports.deliverProject = (tarfile, projectName, task, cb)->
     type: 'delivery'
   )
 
+  _utils.writeTaskLog task, "开始分发到服务器#{task.target}"
+
   exports.request options, (err, res, body)->
     description = '分发完成'
     if err
@@ -50,14 +52,15 @@ exports.deliverProject = (tarfile, projectName, task, cb)->
     else if res and res.statusCode isnt 200
       description += "，但服务器返回状态码不正确->#{res.statusCode}"
 
-    _utils.emitRealLog(
+    _utils.emitRealLog 
       description: description
       task: task
       statusCode: res?.statusCode
       error: err
       responseBody: body
       type: 'delivery'
-    )
+
+    _utils.writeTaskLog task, description
 
     return cb err if err
     if res.statusCode isnt 200

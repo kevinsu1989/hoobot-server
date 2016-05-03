@@ -94,6 +94,7 @@ class Labor
       (done)->
         self.getTask task_id, (err, result)->
           task = result
+          _utils.removeTaskLog task if task
           done err
     )
 
@@ -112,6 +113,7 @@ class Labor
       if err
         message = "执行任务发生错误：#{err.message}"
         _utils.emitRealLog message
+        _utils.writeTaskLog task, message
         self.isRunning = false
         return
 
@@ -131,7 +133,7 @@ class Labor
         type: 'task'
         process: 'start'
       )
-
+      _utils.writeTaskLog task, "提取任务执行"
       #执行任务
       self.executeTask task, (err)->
         self.isRunning = false
@@ -153,7 +155,8 @@ class Labor
           process: 'end'
           error: err
         )
-
+        
+        _utils.writeTaskLog task, description
         #继续执行任务
         self.execute()
 

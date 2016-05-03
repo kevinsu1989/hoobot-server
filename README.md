@@ -27,3 +27,7 @@ METHOD:POST
 }
 
 ```
+
+
+3.发布版本时的log
+URL:/logs/:commit_id 
