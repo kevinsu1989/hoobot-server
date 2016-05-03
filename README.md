@@ -5,7 +5,7 @@ APIS
 URL:/api/release
 
 METHOD:POST
-```json
+```javascript
 {
 	project_id: 1, //项目id
 	commit_hash: '44e4cebf98d57a7d3f9b1ec9cfed2a176a879523', //commit的hash
@@ -23,7 +23,7 @@ METHOD:POST
 URL:/api/deploy
 
 METHOD:POST
-```json
+```javascript
 {
 	page_id: 1, //页面id
 	hashKey: 'test', //VRS的任务id
