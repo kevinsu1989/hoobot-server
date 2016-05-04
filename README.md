@@ -1,4 +1,7 @@
 hoobot的发布服务
+
+现测试地址部署在 http://123.59.21.92:1520
+
 APIS
 1.新版本发布
 
@@ -17,6 +20,9 @@ METHOD:POST
 	ssh_git: 'git@git.hunantv.com:honey-lab/imgotv-pc.git', 
 	token: 'xxxxxx' //release的token
 }
+
+```
+
 返回：
 ```javascript
 {
@@ -24,13 +30,14 @@ METHOD:POST
 }
 
 ```
-
-```
 2.编辑发布上线
 
 URL:/api/deploy
 
 METHOD:POST
+
+
+接收的参数：
 ```javascript
 {
 	page_id: 1, //页面id
