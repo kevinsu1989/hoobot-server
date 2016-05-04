@@ -8,10 +8,7 @@ _http = require 'http'
 _app = _express()
 _path = require 'path'
 _sysUtil = require 'util'
-_redisStore = new require('connect-redis')(_express)
 _app.http().io()
-require 'shelljs/global'
-require 'colors'
 _utils = require './utils'
 _config = require './config'
 
@@ -33,7 +30,7 @@ _app.configure(()->
 
   _app.use(_express.cookieParser())
 
-  _app.set 'port', _config.port.delivery || 1520
+  _app.set 'port', _config.port.server || 1520
 )
 
 require('./initialize')(_app)
