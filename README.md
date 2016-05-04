@@ -5,6 +5,7 @@ APIS
 URL:/api/release
 
 METHOD:POST
+接收的参数：
 ```javascript
 {
 	project_id: 1, //项目在hoobot里的id
@@ -16,6 +17,13 @@ METHOD:POST
 	ssh_git: 'git@git.hunantv.com:honey-lab/imgotv-pc.git', 
 	token: 'xxxxxx' //release的token
 }
+返回：
+```javascript
+{
+	logs:'123.59.21.92:1520/logs/44e4cebf98d57a7d3f9b1ec9cfed2a176a879523'  
+}
+
+```
 
 ```
 2.编辑发布上线
