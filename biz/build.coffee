@@ -33,7 +33,7 @@ exports.execute = (task, cb)->
     else
       buildCommand += task.command || "silky build -o \"#{buildTarget}\" -e #{env}"
       buildCommand += " -i #{task.page_id} " if task.page_id
-    console.log buildCommand
+    # console.log buildCommand
     command =
       command: buildCommand
       task: task

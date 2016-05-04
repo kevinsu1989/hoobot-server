@@ -17,13 +17,33 @@ _config = require '../config'
 exports.release = (data, cb)->
   queue = []
   task_id = 0
+  project_id = 0
 
   #检查token是否一致
   if data.token isnt _config.release.token
     err = _http.notAcceptableError('您的授权码输入有误，三次连续输入错误服务器将会自爆')
     return cb err
 
-  #第一步，检测是否在任务当中
+  #第一步，检测项目是否存在
+  queue.push(
+    (done)->
+      cond =
+        repos: data.ssh_git
+
+      _entity.project.findOne cond, (err, result)->
+        return done err if err
+        if result
+          project_id = result.id 
+          done err
+        else
+          _entity.project.insert cond, (err, result)-> 
+            return done err if err
+            project_id = result[0]
+            done err
+  )
+
+
+  #第二步，检测是否在任务当中
   queue.push(
     (done)->
       cond =
@@ -34,8 +54,9 @@ exports.release = (data, cb)->
         return done err if err
         task_id = result.id if result
 
+        # return done err
         #不需要更改状态
-        return done err if result?.status is _enum.TaskStatus.Created
+        return done err if result?.status is _enum.TaskStatus.Created or !result
 
         updateData = status: _enum.TaskStatus.Created
         _entity.task.updateById task_id, updateData, (err)-> done err
@@ -46,16 +67,16 @@ exports.release = (data, cb)->
     (done)->
       return done null if task_id
       taskData =
-        project_id: data.project_id
+        project_id: project_id
         hash: data.commit_id
-        tag: data.name
-        message: data.commit_message
-        email: data.committer_email
-        timestamp: new Date(data.committed_date).valueOf()
+        # tag: data.name
+        # message: data.commit_message
+        # email: data.committer_email
+        # timestamp: new Date(data.committed_date).valueOf()
         status: _enum.TaskStatus.Created
         repos: data.ssh_git
         type: 'release'
-
+      console.log taskData
       _entity.task.save taskData, (err, id)->
         task_id = id
         done err

@@ -47,12 +47,12 @@ class Labor
 #        _release.execute task, done
 #    )
 
-    #更新活动服务器
-    queue.push(
-      (done)->
-        return done null if task.type is 'editor'
-        _entity.active_task.updateActiveTask task.project_id, task.target, task.type, task.hash, done
-    )
+    # 更新活动服务器
+    # queue.push(
+    #   (done)->
+    #     return done null if task.type is 'editor'
+    #     _entity.active_task.updateActiveTask task.project_id, task.target, task.type, task.hash, done
+    # )
 
     _async.waterfall queue, (err)->
       console.log err if err
@@ -112,7 +112,7 @@ class Labor
     _async.waterfall queue, (err)->
       if err
         message = "执行任务发生错误：#{err.message}"
-        _utils.emitRealLog message
+        # _utils.emitRealLog message
         _utils.writeTaskLog task, message
         self.isRunning = false
         return
@@ -120,7 +120,7 @@ class Labor
       #没有任务了
       if not task
         message = if task_id then "没有找到可执行的任务" else "所有任务都已经完成"
-        _utils.emitRealLog message
+        # _utils.emitRealLog message
         self.isRunning = false
         return
 

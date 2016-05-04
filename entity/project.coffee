@@ -11,19 +11,19 @@ class Project extends _BaseEntity
   constructor: ()->
     super require('../schema/project').schema
 
-  fetch: (cond, cb)->
-    sql = "SELECT * FROM project WHERE 1 = 1"
-    cond = cond || {}
-    sql += " AND repos_git LIKE '%honey-lab%'" if cond.honeyLabOnly
-    @execute sql, cb
+  # fetch: (cond, cb)->
+  #   sql = "SELECT * FROM project WHERE 1 = 1"
+  #   cond = cond || {}
+  #   sql += " AND repos_git LIKE '%honey-lab%'" if cond.honeyLabOnly
+  #   @execute sql, cb
 
-  getGitUsers: (cb)->
-    sql = "SELECT DISTINCT(git_username) FROM project"
-    @execute sql, cb
+  # getGitUsers: (cb)->
+  #   sql = "SELECT DISTINCT(git_username) FROM project"
+  #   @execute sql, cb
 
 
   updateProjectAfterRelease: (task)->
-    sql = "UPDATE project SET release_task_id = #{task.id}, release_time=#{new Date()*1} WHERE id=#{task.project_id}"
+    sql = "UPDATE project SET release_task_id = #{task.id} WHERE id=#{task.project_id}"
     console.log sql
     @execute sql, ()->
 

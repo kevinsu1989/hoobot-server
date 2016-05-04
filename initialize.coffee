@@ -13,7 +13,6 @@ _config = require './config'
 _supervisor = require './biz/supervisor'
 
 
-
 #初始化bijou
 initBijou = (app)->
   options =
@@ -36,6 +35,7 @@ initBijou = (app)->
   _async.waterfall queue, (err)->
     console.log err if err
     console.log 'Hoobot Server is running now!'
+
 
 module.exports = (app)->
   #初始化bijou
