@@ -7,7 +7,7 @@ URL:/api/release
 METHOD:POST
 ```javascript
 {
-	project_id: 1, //项目id
+	project_id: 1, //项目在hoobot里的id
 	commit_hash: '44e4cebf98d57a7d3f9b1ec9cfed2a176a879523', //commit的hash
 	commit_message: 'Merge branch \'mgtv\' into \'master\' Mgtv See merge request !143',
 	committed_date: '2016-02-23T15:24:02.000+08:00',
