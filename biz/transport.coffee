@@ -43,7 +43,7 @@ exports.deliverProject = (tarfile, projectName, task, cb)->
     type: 'delivery'
   )
 
-  _utils.writeTaskLog task, "开始分发到服务器#{task.target}"
+  _utils.writeTaskLog task, "开始分发到运维服务器"
 
   exports.request options, (err, res, body)->
     description = '分发完成'

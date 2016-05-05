@@ -8,3 +8,5 @@ exports.schema =
   fields:
     #仓库地址
     repos: ''
+    #仓库id
+    git_id: 'integer'

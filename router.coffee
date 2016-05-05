@@ -5,6 +5,7 @@
 _http = require('bijou').http
 _ = require 'lodash'
 _fs = require 'fs-extra'
+_path = require 'path'
 
 _utils = require './utils'
 _config = require './config'
@@ -21,15 +22,17 @@ deployByEditor = (req, res, next)->
   _api.deployByEditor req.body, -> 
   _http.responseJSON null, null, res
   
-
+getHashByGit = (req, res, next)->
+  _api.getHashByGit req.params.git_id, (err, result)->
+    _http.responseJSON err, result, res
 
 exports.init = (app)->
-
 
   app.post '/api/release', release
 
   app.post '/api/deploy', deployByEditor
 
-  app.get '/logs/:hash',(req, res, next)->
-    res.sendfile "logs/#{req.params.hash}"
+  app.get '/api/:git_id/release', getHashByGit
 
+  app.get '/logs/:hash',(req, res, next)->
+    res.sendfile _path.resolve(__dirname, _config.logsDirectory, req.params.hash)

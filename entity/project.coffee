@@ -38,4 +38,18 @@ class Project extends _BaseEntity
 
     @execute sql, cb
 
+  getReleaseHashByGit: (git_id, cb)->
+    sql = "SELECT A.hash as hash FROM
+             task A LEFT JOIN project B
+           ON
+             A.project_id = B.id
+           WHERE
+             B.git_id = '#{git_id}' 
+    "
+    @execute sql, cb
+
+
+
+
+
 module.exports = new Project

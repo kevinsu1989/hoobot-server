@@ -51,3 +51,16 @@ METHOD:POST
 3.发布版本时的log
 
 URL:/logs/:commit_id
+
+
+4.获取项目当前版本的hash
+
+URL:/api/:git_id/release
+
+返回:
+
+```javascript
+{
+	hash: '44e4cebf98d57a7d3f9b1ec9cfed2a176a879523'
+}
+```

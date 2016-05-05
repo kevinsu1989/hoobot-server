@@ -29,6 +29,7 @@ exports.release = (data, cb)->
     (done)->
       cond =
         repos: data.ssh_git
+        git_id: data.project_id
 
       _entity.project.findOne cond, (err, result)->
         return done err if err
@@ -76,7 +77,7 @@ exports.release = (data, cb)->
         status: _enum.TaskStatus.Created
         repos: data.ssh_git
         type: 'release'
-      console.log taskData
+
       _entity.task.save taskData, (err, id)->
         task_id = id
         done err
@@ -104,4 +105,13 @@ exports.previewByEditor = (data, cb)->
 
 exports.deployByEditor = (data, cb)->
   _supervisor.deployFromEditor data, cb
+
+exports.getHashByGit = (git_id, cb)->
+  _entity.project.getReleaseHashByGit git_id, (err, result)->
+    if result[0]
+      cb err, result[0] 
+    else
+      cb err, {err:'cannot find release hash'}
+
+
 
