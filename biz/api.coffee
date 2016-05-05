@@ -70,7 +70,7 @@ exports.release = (data, cb)->
       taskData =
         project_id: project_id
         hash: data.commit_id
-        # tag: data.name
+        tag_name: data.tag_name
         # message: data.commit_message
         # email: data.committer_email
         # timestamp: new Date(data.committed_date).valueOf()

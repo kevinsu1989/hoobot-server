@@ -10,6 +10,8 @@ exports.schema =
     hash: {type: 'string', index: true}
     #项目，对于到bhf的项目列表
     project_id: 'integer'
+    #tag名称
+    tag_name: ''
     #仓库的地址，eg. git:
     repos: 'text'
     #任务的类型
