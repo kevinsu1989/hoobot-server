@@ -1,8 +1,9 @@
 hoobot的发布服务
 
-现测试地址部署在 http://123.59.21.92:1520
+部署在 http://10.100.5.113:1520
 
 APIS
+
 1.新版本发布
 
 URL:/api/release
@@ -30,6 +31,8 @@ METHOD:POST
 }
 
 ```
+
+
 2.编辑发布上线
 
 URL:/api/deploy
@@ -51,6 +54,7 @@ METHOD:POST
 3.发布版本时的log
 
 URL:/logs/:commit_id
+
 
 
 4.获取项目当前版本的hash
