@@ -25,6 +25,7 @@ exports.deployFromEditor = (data, cb)->
       task_id: result[0].task_id
       preview_url: result[0].preview_url
       deploy_url: result[0].deploy_url
+      host_url: data.url
       data_hash: data.hashKey
       page_id: data.page_id
       key: data.key

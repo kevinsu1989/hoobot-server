@@ -14,7 +14,9 @@ _api = require './biz/api'
 
 release = (req, res, next)->
   _api.release req.body, -> 
-  logUrl = req.headers.host + "/logs/" + req.body.commit_id
+
+  logUrl = [req.headers.host, "logs", req.body.commit_id].join('/')
+  
   _http.responseJSON null, {logs:logUrl}, res
 
 

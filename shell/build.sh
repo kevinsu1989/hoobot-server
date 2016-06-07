@@ -27,7 +27,8 @@ else
 fi
 
 echo "切换到指定hash"
-git checkout "$HASH"
+
+git stash && git checkout "$HASH"
 
 #如果有submodule，则更新之
 echo "$SUBMODULE"

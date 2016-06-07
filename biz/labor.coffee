@@ -177,6 +177,7 @@ class Labor
           task.page_id = data.page_id
           task.preview_url = data.preview_url
           task.deploy_url = data.deploy_url
+          task.host_url = data.host_url
           done err
     )
     #执行任务
