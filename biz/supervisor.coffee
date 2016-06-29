@@ -20,7 +20,7 @@ exports.runTask = (task_id, server_uuid)->
 
 exports.deployFromEditor = (data, cb)->
   _entity.project.getTaskByDataId data.page_id,(err, result)->
-
+    return if result.length < 0
     _labor.executeByEditor {
       task_id: result[0].task_id
       preview_url: result[0].preview_url
