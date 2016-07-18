@@ -104,6 +104,7 @@ class Labor
         #
         if task
           task.delivery_server = _config.release.server 
+          task.delivery_server = _config.preview.server if task.type is 'preview'
           return done null
 
         return done null if not (server_uuid and task)

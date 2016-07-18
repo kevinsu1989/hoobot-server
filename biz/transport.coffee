@@ -37,13 +37,15 @@ exports.deliverProject = (tarfile, projectName, task, cb)->
     json: true
     formData: formData
 
+  _target = if task.target then "服务器#{task.target}"  else '运维服务器'
+
   _utils.emitRealLog(
-    description: "开始分发到服务器#{task.target}"
+    description: "开始分发到#{_target}"
     task: task
     type: 'delivery'
-  )
+  ) 
 
-  _utils.writeTaskLog task, "开始分发到运维服务器"
+  # _utils.writeTaskLog task, "开始分发到运维服务器"
 
   exports.request options, (err, res, body)->
     description = '分发完成'
