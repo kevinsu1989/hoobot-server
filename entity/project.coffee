@@ -44,7 +44,7 @@ class Project extends _BaseEntity
            ON
              A.project_id = B.id
            WHERE
-             B.git_id = '#{git_id}' 
+             B.git_id = '#{git_id}'  and A.type='release' and A.status=10 order by A.id desc limit 0,1
     "
     @execute sql, cb
 
