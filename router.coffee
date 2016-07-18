@@ -19,10 +19,17 @@ release = (req, res, next)->
   
   _http.responseJSON null, {logs:logUrl}, res
 
+preview = (req, res, next)->
+  _api.preview req.body, -> 
+
+  logUrl = [req.headers.host, "logs", req.body.commit_id].join('/')
+  
+  _http.responseJSON null, {logs:logUrl}, res
 
 deployByEditor = (req, res, next)->
   _api.deployByEditor req.body, -> 
   _http.responseJSON null, null, res
+
   
 getHashByGit = (req, res, next)->
   _api.getHashByGit req.params.git_id, (err, result)->
@@ -31,6 +38,8 @@ getHashByGit = (req, res, next)->
 exports.init = (app)->
 
   app.post '/api/release', release
+
+  app.post '/api/preview', preview
 
   app.post '/api/deploy', deployByEditor
 
