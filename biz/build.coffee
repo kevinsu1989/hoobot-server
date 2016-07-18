@@ -32,6 +32,7 @@ exports.execute = (task, cb)->
       buildCommand += config.command
     else
       buildCommand += task.command || "silky build -o \"#{buildTarget}\" -e #{env}"
+      buildCommand += " -x #{task.hash.substr(0,8)}" if env is 'preview'
       buildCommand += " -i #{task.page_id} " if task.page_id
     # console.log buildCommand
     command =

@@ -12,8 +12,8 @@ METHOD:POST
 接收的参数：
 ```javascript
 {
-	project_id: 1, //项目在hoobot里的id
-	commit_hash: '44e4cebf98d57a7d3f9b1ec9cfed2a176a879523', //commit的hash
+	project_id: 1, 
+	commit_id '44e4cebf98d57a7d3f9b1ec9cfed2a176a879523', //commit的hash
 	commit_message: 'Merge branch \'mgtv\' into \'master\' Mgtv See merge request !143',
 	committed_date: '2016-02-23T15:24:02.000+08:00',
 	committer_email: 'xuedudu@gmail.com',
@@ -67,4 +67,31 @@ URL:/api/:git_id/release
 {
 	hash: '44e4cebf98d57a7d3f9b1ec9cfed2a176a879523'
 }
+```
+
+
+
+5.预览接口
+
+URL:/api/preview
+
+METHOD:POST
+接收的参数：
+```javascript
+{
+	project_id: 1, 
+	commit_id: '44e4cebf98d57a7d3f9b1ec9cfed2a176a879523', //commit的hash
+	tag_name: 'v0.2.3', 
+	ssh_git: 'git@git.hunantv.com:honey-lab/imgotv-pc.git'
+}
+
+```
+
+返回：
+```javascript
+{
+	logs:'123.59.21.92:1520/logs/44e4cebf98d57a7d3f9b1ec9cfed2a176a879523'  
+	preview:'123.59.21.92:12299/44e4cebf'  
+}
+
 ```
