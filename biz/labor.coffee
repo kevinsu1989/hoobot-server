@@ -19,7 +19,7 @@ _request = require 'request'
 class Labor
   isRunning: false
   runningTask: null
-  #constructor: ()->
+  needPreview: false
 
   #执行任务
   executeTask: (task, cb)->
@@ -35,6 +35,7 @@ class Labor
     queue.push(
       (server, done)->
         if server is null
+          self.needPreview = true
           _delivery.execute task, (err)-> done err
         else  
           done null
@@ -144,7 +145,7 @@ class Labor
         else
           description = "任务执行完成，成功分发至#{task.delivery_server}"
 
-        if task.type is 'release'
+        if task.type is 'release' and self.needPreview is true
           _entity.project.updateProjectAfterRelease task
           _request.post {url: _config.preview.api, form: task}, ->
 
