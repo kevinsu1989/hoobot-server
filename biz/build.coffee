@@ -4,6 +4,8 @@ _fs = require 'fs-extra'
 
 _utils = require '../utils'
 
+_request = require 'request'
+
 #执行构建
 exports.execute = (task, cb)->
   projectName =  _utils.extractProjectName(task.repos)
@@ -22,22 +24,42 @@ exports.execute = (task, cb)->
     command: commandText
     task: task
     description: '执行构建脚本'
+  build = ()->
+      buildCommand = "cd #{reposProjectDir} && "
+      if _fs.existsSync _path.join(reposProjectDir, '.hoobot')
+        config = JSON.parse _fs.readFileSync(_path.join(reposProjectDir, '.hoobot'), 'utf-8')
+        # projectName = config.projectName
+        # buildTarget = _path.join(_utils.tempDirectory(), 'repos', config.buildTarget)
+        buildCommand += config.command
+      else
+        buildCommand += task.command || "silky build -o \"#{buildTarget}\" -e #{env}"
+        buildCommand += " -x pre#{task.hash.substr(0,8)}" if env is 'preview'
+        buildCommand += " -i #{task.page_id} " if task.page_id
+      # console.log buildCommand
+      command =
+        command: buildCommand
+        task: task
+        description: '执行构建脚本'
+      _utils.execCommandWithTask command, (err)->
+        cb err, null
 
   _utils.execCommandWithTask command, (err)->
-    buildCommand = "cd #{reposProjectDir} && "
-    if _fs.existsSync _path.join(reposProjectDir, '.hoobot')
-      config = JSON.parse _fs.readFileSync(_path.join(reposProjectDir, '.hoobot'), 'utf-8')
-      # projectName = config.projectName
-      # buildTarget = _path.join(_utils.tempDirectory(), 'repos', config.buildTarget)
-      buildCommand += config.command
+    if _fs.existsSync _path.join(reposProjectDir, 'package.json')
+      pkg = JSON.parse _fs.readFileSync(_path.join(reposProjectDir, 'package.json'), 'utf-8')
+      console.log pkg
+      if pkg.server
+        _request.post {url: "#{pkg.server}:1518/api/app", form: task}, (err, res, result)->
+          if err
+            _utils.writeTaskLog task, err
+            console.log err
+          else
+            _utils.writeTaskLog task, "任务完成"
+            console.log "任务完成"
+          
+        cb null, pkg.server
+      else
+        build()
     else
-      buildCommand += task.command || "silky build -o \"#{buildTarget}\" -e #{env}"
-      buildCommand += " -x #{task.hash.substr(0,8)}" if env is 'preview'
-      buildCommand += " -i #{task.page_id} " if task.page_id
-    # console.log buildCommand
-    command =
-      command: buildCommand
-      task: task
-      description: '执行构建脚本'
-    _utils.execCommandWithTask command, cb
+      build()
+     
 

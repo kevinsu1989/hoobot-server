@@ -24,7 +24,7 @@ preview = (req, res, next)->
 
   logUrl = [req.headers.host, "logs", req.body.commit_id].join('/')
   
-  _http.responseJSON null, {logs:logUrl, preview:"http://10.200.8.234:12299/#{req.body.commit_id.substr(0,8)}"}, res
+  _http.responseJSON null, {logs:logUrl, preview:"http://10.200.8.234:8000/pre#{req.body.commit_id.substr(0,8)}"}, res
 
 deployByEditor = (req, res, next)->
   _api.deployByEditor req.body, -> 

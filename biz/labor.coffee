@@ -33,11 +33,11 @@ class Labor
 
     #执行分发，如果是编辑触发的preview的话，则不分发
     queue.push(
-      (done)->
-        # if task.type is 'preview_editor'
-        #   _delivery.executeByEditor task, (err)-> done err
-        # else  
-        _delivery.execute task, (err)-> done err
+      (server, done)->
+        if server is null
+          _delivery.execute task, (err)-> done err
+        else  
+          done null
     )
 
 #    #提交到svn，如果是release的话
