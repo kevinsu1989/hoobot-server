@@ -14,9 +14,6 @@ METHOD:POST
 {
 	project_id: 1, 
 	commit_id '44e4cebf98d57a7d3f9b1ec9cfed2a176a879523', //commit的hash
-	commit_message: 'Merge branch \'mgtv\' into \'master\' Mgtv See merge request !143',
-	committed_date: '2016-02-23T15:24:02.000+08:00',
-	committer_email: 'xuedudu@gmail.com',
 	tag_name: 'v0.2.3', 
 	ssh_git: 'git@git.hunantv.com:honey-lab/imgotv-pc.git', 
 	token: 'xxxxxx' //release的token
@@ -30,6 +27,23 @@ METHOD:POST
 	logs:'123.59.21.92:1520/logs/44e4cebf98d57a7d3f9b1ec9cfed2a176a879523'  
 }
 
+```
+
+现在支持node项目的部署，需要在package.json文件中做以下配置：
+```
+{
+  "scripts": {
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "start": "NODE_ENV=production pm2 start ./bin/www -n hoobot-interface-test",
+    "stop": "pm2 delete hoobot-interface-test"
+  },
+  "command": "npm install && npm build && npm start",//启动项目执行的指令
+  "command_restart": "npm install && npm build && npm stop && npm start",//重启项目执行的指令
+  "server": "http://192.168.8.156"//目标服务器地址
+
+}
+
+command,command_restart,server均为必填项
 ```
 
 
