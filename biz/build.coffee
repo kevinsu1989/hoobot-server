@@ -47,7 +47,7 @@ exports.execute = (task, cb)->
     if _fs.existsSync _path.join(reposProjectDir, 'package.json')
       pkg = JSON.parse _fs.readFileSync(_path.join(reposProjectDir, 'package.json'), 'utf-8')
       console.log pkg
-      if pkg.hoobot.server
+      if pkg.hoobot
         _request.post {url: "#{pkg.hoobot.server}:1518/api/app", form: task}, (err, res, result)->
           if err
             _utils.writeTaskLog task, err
