@@ -37,13 +37,15 @@ METHOD:POST
     "start": "NODE_ENV=production pm2 start ./bin/www -n hoobot-interface-test",
     "stop": "pm2 delete hoobot-interface-test"
   },
-  "command": "npm install && npm build && npm start",//启动项目执行的指令
-  "command_restart": "npm install && npm build && npm stop && npm start",//重启项目执行的指令
-  "server": "http://192.168.8.156"//目标服务器地址
+  "hoobot":{
+	"start": "npm install && npm build && npm start",//启动项目执行的指令
+	"restart": "npm install && npm build && npm stop && npm start",//重启项目执行的指令
+	"server": "http://192.168.8.156"//目标服务器地址
+  }
 
 }
 
-command,command_restart,server均为必填项
+start,restart,server均为必填项
 ```
 
 

@@ -33,7 +33,7 @@ exports.execute = (task, cb)->
         buildCommand += config.command
       else
         buildCommand += task.command || "silky build -o \"#{buildTarget}\" -e #{env}"
-        buildCommand += " -x pre#{task.hash.substr(0,8)}" if env is 'preview'
+        buildCommand += " -x #{task.hash.substr(0,8)}" if env is 'preview'
         buildCommand += " -i #{task.page_id} " if task.page_id
       # console.log buildCommand
       command =
@@ -47,8 +47,8 @@ exports.execute = (task, cb)->
     if _fs.existsSync _path.join(reposProjectDir, 'package.json')
       pkg = JSON.parse _fs.readFileSync(_path.join(reposProjectDir, 'package.json'), 'utf-8')
       console.log pkg
-      if pkg.server
-        _request.post {url: "#{pkg.server}:1518/api/app", form: task}, (err, res, result)->
+      if pkg.hoobot.server
+        _request.post {url: "#{pkg.hoobot.server}:1518/api/app", form: task}, (err, res, result)->
           if err
             _utils.writeTaskLog task, err
             console.log err
@@ -56,7 +56,7 @@ exports.execute = (task, cb)->
             _utils.writeTaskLog task, "任务完成"
             console.log "任务完成"
           
-        cb null, pkg.server
+        cb null, pkg.hoobot.server
       else
         build()
     else
