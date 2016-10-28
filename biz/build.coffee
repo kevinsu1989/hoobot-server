@@ -8,6 +8,8 @@ _request = require 'request'
 
 #执行构建
 exports.execute = (task, cb)->
+  start = new Date().valueOf()
+
   projectName =  _utils.extractProjectName(task.repos)
   #本地仓库的目录
   reposProjectDir = _utils.reposDireectory projectName
@@ -41,13 +43,16 @@ exports.execute = (task, cb)->
         task: task
         description: '执行构建脚本'
       _utils.execCommandWithTask command, (err)->
-        cb err, null
+        cost = new Date().valueOf() - start
+        console.log "任务完成，共耗时#{cost}ms"
+        _utils.writeTaskLog task, "任务完成，共耗时#{cost}ms"
+        cb err, task, null
 
   _utils.execCommandWithTask command, (err)->
     if _fs.existsSync _path.join(reposProjectDir, 'package.json')
       pkg = JSON.parse _fs.readFileSync(_path.join(reposProjectDir, 'package.json'), 'utf-8')
       console.log pkg
-      if pkg.hoobot
+      if pkg.hoobot && pkg.hoobot.server
         _request.post {url: "#{pkg.hoobot.server}:1518/api/app", form: task}, (err, res, result)->
           if err
             _utils.writeTaskLog task, err
@@ -56,7 +61,7 @@ exports.execute = (task, cb)->
             _utils.writeTaskLog task, "任务完成"
             console.log "任务完成"
           
-        cb null, pkg.hoobot.server
+        cb null, task, pkg.hoobot.server
       else
         build()
     else

@@ -29,6 +29,7 @@ exports.deployFromEditor = (data, cb)->
       data_hash: data.hashKey
       page_id: data.page_id
       key: data.key
+      terminal_type: data.terminalType
     }, ()->
 
   cb true
