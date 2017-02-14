@@ -33,7 +33,7 @@ class Labor
 
     #执行分发，如果是编辑触发的preview的话，则不分发
     queue.push(
-      (server, done)->
+      (task, server, done)->
         if server is null
           self.needPreview = true
           _delivery.execute task, (err)-> done err
@@ -179,7 +179,9 @@ class Labor
           task.page_id = data.page_id
           task.preview_url = data.preview_url
           task.deploy_url = data.deploy_url
-          task.host_url = data.host_url
+          task.url = data.url
+          task.terminal_type = data.terminal_type
+          task.editor_id = data.editor_id
           done err
     )
     #执行任务
